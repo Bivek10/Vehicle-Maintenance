@@ -54,7 +54,7 @@ class _BookingFomrState extends State<BookingFomr>
   final format1 = DateFormat("HH:mm");
   @override
   Widget build(BuildContext context) {
-    print(widget.userid.toString());
+    //print(widget.userid.toString());
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.orangeAccent,
@@ -290,8 +290,8 @@ class _BookingFomrState extends State<BookingFomr>
             setState(() {
               this.isRequest = false;
             });
-            print(e);
-            print(s);
+            //print(e);
+            //print(s);
           }
         }
         //start registration;

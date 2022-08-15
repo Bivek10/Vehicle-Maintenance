@@ -21,7 +21,7 @@ class _ProfilePageState extends State<ProfilePage> {
     allCenter.clear();
     // Get docs from collection reference
     QuerySnapshot querySnapshot = await _collectionRef.get();
-    // print(querySnapshot.docs.asMap().);
+    // //print(querySnapshot.docs.asMap().);
     // Get data from docs and convert map to List
     // querySnapshot.docs.forEach(
     //   (element) {
@@ -33,7 +33,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
     final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
 
-    print(allData);
+    //print(allData);
     allCenter = allData;
     return allData;
   }

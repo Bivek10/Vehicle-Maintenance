@@ -126,8 +126,8 @@ class _SignUpPageState extends State<SignUpPage> {
             setState(() {
               this.isRequest = false;
             });
-            print(e);
-            print(s);
+            //print(e);
+            //print(s);
           }
         }
         //start registration;
