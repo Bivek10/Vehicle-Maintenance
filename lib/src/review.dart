@@ -1,34 +1,30 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 import 'package:vehicle_maintainance/src/Widget/circularprogess.dart';
 import 'package:vehicle_maintainance/src/Widget/costume_text.dart';
 import 'package:vehicle_maintainance/src/data/session_data.dart';
 
 import 'home_page.dart';
 
-class BookingFomr extends StatefulWidget {
+class ReviewForm extends StatefulWidget {
   final String userid;
   final String centerid;
   final String centername;
-  final String partname;
 
-  const BookingFomr(
-      {Key? key,
-      required this.userid,
-      required this.centerid,
-      required this.centername,
-      required this.partname})
-      : super(key: key);
+  const ReviewForm({
+    Key? key,
+    required this.userid,
+    required this.centerid,
+    required this.centername,
+  }) : super(key: key);
 
   @override
-  State<BookingFomr> createState() => _BookingFomrState();
+  State<ReviewForm> createState() => _ReviewFormState();
 }
 
-class _BookingFomrState extends State<BookingFomr>
+class _ReviewFormState extends State<ReviewForm>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
 
@@ -45,15 +41,12 @@ class _BookingFomrState extends State<BookingFomr>
   }
 
   TextEditingController usernamectrl = TextEditingController();
-  TextEditingController datectrl = TextEditingController();
-  TextEditingController timectrl = TextEditingController();
-  TextEditingController serviceType = TextEditingController();
-  TextEditingController phoneNumber = TextEditingController();
+  TextEditingController feedBack = TextEditingController();
+
   final formKey = GlobalKey<FormState>();
   bool isRequest = false;
   SessionManager sessionManager = SessionManager();
-  final format = DateFormat("yyyy-MM-dd");
-  final format1 = DateFormat("HH:mm");
+
   @override
   Widget build(BuildContext context) {
     //print(widget.userid.toString());
@@ -73,7 +66,7 @@ class _BookingFomrState extends State<BookingFomr>
           ),
         ),
         title: Text(
-          "Booking Form",
+          "Feedback Form",
           style: GoogleFonts.roboto(
             textStyle: Theme.of(context).textTheme.headline4,
             fontSize: 20,
@@ -120,102 +113,20 @@ class _BookingFomrState extends State<BookingFomr>
                       height: 10,
                     ),
                     TextFormField(
-                      keyboardType: TextInputType.number,
-                      controller: phoneNumber,
+                      controller: feedBack,
                       cursorColor: Colors.orangeAccent,
                       style: CostumTextBorder.textfieldstyle,
+                      maxLines: 2,
                       decoration: CostumTextBorder.textfieldDecoration(
                           context: context,
-                          hintText: "Contact No.",
-                          lableText: "Contact No.",
-                          iconData: Icons.phone),
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return "Contact number is required.";
-                        }
-                        // final RegExp emailExp = RegExp(
-                        //     r'^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
-                        // if (!emailExp.hasMatch(value.trim())) {
-                        //   return "Invalid E-mail address";
-                        // }
-                        return null;
-                      },
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    DateTimeField(
-                      controller: datectrl,
-                      format: format,
-                      decoration: CostumTextBorder.textfieldDecoration(
-                        context: context,
-                        hintText: "Date",
-                        lableText: "Date",
-                        iconData: Icons.date_range,
-                      ),
-                      onShowPicker: (context, currentValue) {
-                        return showDatePicker(
-                          context: context,
-                          firstDate: DateTime.now(),
-                          initialDate: currentValue ?? DateTime.now(),
-                          lastDate: DateTime(2100),
-                        );
-                      },
-                      validator: (value) {
-                        if (value == null) {
-                          return "Date is required";
-                        }
-                        return null;
-                      },
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    DateTimeField(
-                      controller: timectrl,
-                      format: format1,
-                      decoration: CostumTextBorder.textfieldDecoration(
-                        context: context,
-                        hintText: "Time",
-                        lableText: "Time",
-                        iconData: Icons.date_range,
-                      ),
-                      onShowPicker: (context, currentValue) async {
-                        final time = await showTimePicker(
-                          context: context,
-                          initialTime: TimeOfDay.fromDateTime(
-                              currentValue ?? DateTime.now()),
-                        );
-                        return DateTimeField.convert(time);
-                      },
-                      validator: (value) {
-                        if (value == null) {
-                          return "Time is required";
-                        }
-                        return null;
-                      },
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    TextFormField(
-                      controller: serviceType,
-                      cursorColor: Colors.orangeAccent,
-                      style: CostumTextBorder.textfieldstyle,
-                      decoration: CostumTextBorder.textfieldDecoration(
-                          context: context,
-                          hintText: "Comment",
-                          lableText: "Comment",
+                          hintText: "FeedBack",
+                          lableText: "FeedBack",
                           iconData: Icons.email),
                       validator: (value) {
                         if (value!.isEmpty) {
-                          return "Comment is required.";
+                          return "Feedback is required";
                         }
-                        // final RegExp emailExp = RegExp(
-                        //     r'^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
-                        // if (!emailExp.hasMatch(value.trim())) {
-                        //   return "Invalid E-mail address";
-                        // }
+
                         return null;
                       },
                     ),
@@ -241,19 +152,19 @@ class _BookingFomrState extends State<BookingFomr>
             setState(() {
               this.isRequest = true;
             });
-            var response =
-                FirebaseFirestore.instance.collection('bookingdetail').add({
-              'centerid': widget.centerid,
-              'userid': widget.userid,
-              "centername": widget.centername,
-              'message': serviceType.text,
-              "username": usernamectrl.text,
-              'phone': phoneNumber.text,
-              "date": datectrl.text,
-              "time": timectrl.text,
-              "partname": widget.partname,
-              "bookstatus": false,
-            });
+            var response = FirebaseFirestore.instance
+                .collection('servicecenter')
+                .doc(widget.centerid)
+                .collection("review")
+                .add(
+              {
+                "username": usernamectrl.text,
+                'centerid': widget.centerid,
+                'userid': widget.userid,
+                "centername": widget.centername,
+                'message': feedBack.text,
+              },
+            );
 
             response.then((value) {
               if (value.id.isNotEmpty) {
@@ -269,7 +180,7 @@ class _BookingFomrState extends State<BookingFomr>
                   (route) => false,
                 );
                 Fluttertoast.showToast(
-                    msg: "Thank You! Your service is booked",
+                    msg: "Thank You! For your feedback.",
                     toastLength: Toast.LENGTH_SHORT,
                     gravity: ToastGravity.CENTER,
                     timeInSecForIosWeb: 1,
@@ -281,7 +192,7 @@ class _BookingFomrState extends State<BookingFomr>
                   this.isRequest = false;
                 });
                 Fluttertoast.showToast(
-                    msg: "Sorry! Booking failed",
+                    msg: "Sorry! review failed",
                     toastLength: Toast.LENGTH_SHORT,
                     gravity: ToastGravity.CENTER,
                     timeInSecForIosWeb: 1,
@@ -322,7 +233,7 @@ class _BookingFomrState extends State<BookingFomr>
         child: this.isRequest
             ? CircularProgress()
             : Text(
-                'Confirm Book',
+                'Send review',
                 style: TextStyle(fontSize: 20, color: Colors.white),
               ),
       ),

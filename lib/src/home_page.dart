@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:vehicle_maintainance/src/Widget/circularprogess.dart';
+import 'package:vehicle_maintainance/src/admin_login.dart';
 import 'package:vehicle_maintainance/src/data/session_data.dart';
 import 'package:vehicle_maintainance/src/loginPage.dart';
 import 'package:vehicle_maintainance/src/profile.dart';
@@ -98,13 +98,27 @@ class _HomePageState extends State<HomePage> {
                   return LoginPage();
                 }), (route) => false);
               },
-              child: CircleAvatar(
-                radius: 20,
-                backgroundColor: Colors.white,
-                child: Icon(
-                  Icons.logout,
-                  color: Colors.black,
-                ),
+              child: Icon(
+                Icons.logout,
+                color: Colors.black,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(right: 15.0),
+            child: InkWell(
+              onTap: () async {
+                await sessionManager.deleteUserID();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) {
+                    return AdminLogin();
+                  }),
+                );
+              },
+              child: Icon(
+                Icons.admin_panel_settings,
+                color: Colors.black,
               ),
             ),
           )

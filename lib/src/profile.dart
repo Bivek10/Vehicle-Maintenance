@@ -88,7 +88,10 @@ class _ProfilePageState extends State<ProfilePage> {
                         itemBuilder: ((context, index) {
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 8.0),
-                            child: BookingCard(details: allCenter[index]),
+                            child: BookingCard(
+                              details: allCenter[index],
+                              isAdmin: false,
+                            ),
                           );
                         }),
                       );
