@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:vehicle_maintainance/src/Widget/circularprogess.dart';
+import 'package:vehicle_maintainance/src/admin_login.dart';
 import 'package:vehicle_maintainance/src/data/session_data.dart';
 import 'package:vehicle_maintainance/src/home_page.dart';
 import 'package:vehicle_maintainance/src/signup.dart';
@@ -109,10 +110,10 @@ class _LoginPageState extends State<LoginPage> {
               .where('email', isEqualTo: usernameCtrl.text)
               .where('password', isEqualTo: passwordCtrl.text)
               .get()
-              .then((checkSnapshot) {
+              .then((checkSnapshot) async {
             // print(checkSnapshot.docs[0].id);
             if (checkSnapshot.size > 0) {
-              sessionManager.setUserID(checkSnapshot.docs[0].id);
+              await sessionManager.setUserID(checkSnapshot.docs[0].id);
               setState(() {
                 this.isRequest = false;
               });
@@ -265,8 +266,11 @@ class _LoginPageState extends State<LoginPage> {
             context, MaterialPageRoute(builder: (context) => SignUpPage()));
       },
       child: Container(
-        margin: EdgeInsets.symmetric(vertical: 20),
-        padding: EdgeInsets.all(15),
+        margin: EdgeInsets.symmetric(vertical: 10),
+        padding: EdgeInsets.only(
+          left: 15,
+          right: 15,
+        ),
         alignment: Alignment.bottomCenter,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -340,6 +344,42 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  Widget _adminLabel() {
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => AdminLogin()));
+      },
+      child: Container(
+        margin: EdgeInsets.symmetric(vertical: 10),
+        padding: EdgeInsets.only(
+          left: 15,
+          right: 15,
+        ),
+        alignment: Alignment.bottomCenter,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              'Are you Admin ?',
+              style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            Text(
+              'Admin Login',
+              style: TextStyle(
+                  color: Color(0xfff79c4f),
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -365,19 +405,15 @@ class _LoginPageState extends State<LoginPage> {
                   _emailPasswordWidget(),
                   SizedBox(height: 20),
                   _submitButton(),
-                  Container(
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      'Forgot Password ?',
-                      style:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-                    ),
-                  ),
+
                   _divider(),
                   // _facebookButton(),
                   //SizedBox(height: height * .055),
                   _createAccountLabel(),
+                  _divider(),
+                  // _facebookButton(),
+                  //SizedBox(height: height * .055),
+                  _adminLabel(),
                 ],
               ),
             ),

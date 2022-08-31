@@ -104,6 +104,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
+          /*
           Padding(
             padding: const EdgeInsets.only(right: 15.0),
             child: InkWell(
@@ -122,6 +123,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           )
+          */
         ],
       ),
       body: Padding(

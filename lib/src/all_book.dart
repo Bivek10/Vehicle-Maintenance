@@ -21,20 +21,20 @@ class _AllBookDetailsState extends State<AllBookDetails> {
 
   Future<List> getData() async {
     allCenter.clear();
-    String? userid = await sessionManager.getUserID();
-    if (userid != null) {
-      // Get docs from collection reference
-      QuerySnapshot querySnapshot =
-          await _collectionRef.where("userid", isEqualTo: userid).get();
 
-      querySnapshot.docs.forEach(
-        (element) {
-          Map x = {"bookid": element.id};
-          x.addAll(element.data() as Map);
-          allCenter.add(x);
-        },
-      );
-    }
+    // Get docs from collection reference
+    QuerySnapshot querySnapshot = await _collectionRef.get();
+    // QuerySnapshot querySnapshot =
+    //     await _collectionRef.where("userid", isEqualTo: userid).get();
+
+    querySnapshot.docs.forEach(
+      (element) {
+        Map x = {"bookid": element.id};
+        x.addAll(element.data() as Map);
+        allCenter.add(x);
+      },
+    );
+
     return allCenter;
   }
 
@@ -73,11 +73,7 @@ class _AllBookDetailsState extends State<AllBookDetails> {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return allCenter.isEmpty
-                    ? Container(
-                        child: Center(
-                          child: Text("Sorry! No booking is made yet."),
-                        ),
-                      )
+                    ? Center(child: CircularProgress())
                     : ListView.builder(
                         itemCount: allCenter.length,
                         itemBuilder: ((context, index) {

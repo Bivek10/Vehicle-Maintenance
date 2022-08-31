@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:vehicle_maintainance/src/Widget/circularprogess.dart';
 import 'package:vehicle_maintainance/src/admin_panel.dart';
-import 'package:vehicle_maintainance/src/data/session_data.dart';
+
 import 'package:vehicle_maintainance/src/home_page.dart';
 import 'package:vehicle_maintainance/src/signup.dart';
 
@@ -23,7 +23,7 @@ class _AdminLoginState extends State<AdminLogin> {
   TextEditingController passwordCtrl = TextEditingController();
   bool isRequest = false;
   bool showPass = false;
-  SessionManager sessionManager = SessionManager();
+
   final formKey = GlobalKey<FormState>();
 
   Widget _backButton() {
@@ -115,7 +115,6 @@ class _AdminLoginState extends State<AdminLogin> {
               .then((checkSnapshot) {
             // print(checkSnapshot.docs.length);
             if (checkSnapshot.size > 0) {
-              sessionManager.setUserID(checkSnapshot.docs[0].id);
               setState(() {
                 this.isRequest = false;
               });
